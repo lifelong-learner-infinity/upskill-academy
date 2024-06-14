@@ -1,15 +1,10 @@
 package com.example.academy;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import static com.example.academy.Main.handleProgram;
+import java.util.Collections;
 
 public class MainTest {
 
@@ -27,50 +22,53 @@ public class MainTest {
     }
 
     @Test
-    public void shouldHandleProgramAction() {
-        // given
-        String data = "ADD_PROGRAMME CERTIFICATION 1";
+    @DisplayName("Integration Test #1")
+    void runTest1(){
 
-        // when
-        handleProgram(data);
+        String argument= "sample_input/input1.txt";
+        String expectedOutput = "SUB_TOTAL 13000.00\n" +
+                "COUPON_DISCOUNT B4G1 2500.00\n" +
+                "TOTAL_PRO_DISCOUNT 0.00\n" +
+                "PRO_MEMBERSHIP_FEE 0.00\n" +
+                "ENROLLMENT_FEE 0.00\n" +
+                "TOTAL 10500.00";
 
-        // then
-        assertEquals("", outputStreamCaptor.toString());
+        Main.run(Collections.singletonList(argument));
+
+        Assertions.assertEquals(expectedOutput,outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void shouldHandleProMembership() {
-        // given
-        String data = "ADD_PRO_MEMBERSHIP";
+    @DisplayName("Integration Test #2")
+    void runTest2(){
 
-        // when
-        handleProgram(data);
+        String argument= "sample_input/input2.txt";
+        String expectedOutput = "SUB_TOTAL 10000.00\n" +
+                "COUPON_DISCOUNT DEAL_G20 2000.00\n" +
+                "TOTAL_PRO_DISCOUNT 0.00\n" +
+                "PRO_MEMBERSHIP_FEE 0.00\n" +
+                "ENROLLMENT_FEE 0.00\n" +
+                "TOTAL 8000.00";
 
-        // then
-        assertEquals("", outputStreamCaptor.toString());
+        Main.run(Collections.singletonList(argument));
+
+        Assertions.assertEquals(expectedOutput,outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void shouldHandleCouponAddition() {
-        // given
-        String data = "APPLY_COUPON DEAL_G20";
+    @DisplayName("Integration Test #3")
+    void runTest3(){
 
-        // when
-        handleProgram(data);
+        String argument= "sample_input/input3.txt";
+        String expectedOutput = "SUB_TOTAL 5615.00\n" +
+                "COUPON_DISCOUNT NONE 0.00\n" +
+                "TOTAL_PRO_DISCOUNT 85.00\n" +
+                "PRO_MEMBERSHIP_FEE 200.00\n" +
+                "ENROLLMENT_FEE 500.00\n" +
+                "TOTAL 6115.00";
 
-        // then
-        assertEquals("", outputStreamCaptor.toString());
-    }
+        Main.run(Collections.singletonList(argument));
 
-    @Test
-    public void shouldHandleInvoiceGeneration() {
-        // given
-        String data = "PRINT_BILL";
-
-        // when
-        handleProgram(data);
-
-        // then
-        assertEquals("", outputStreamCaptor.toString());
+        Assertions.assertEquals(expectedOutput,outputStreamCaptor.toString().trim());
     }
 }
